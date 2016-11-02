@@ -24,12 +24,12 @@ trait ReviewRateable
       if ($round) {
             return $this->ratings()
               ->selectRaw('ROUND(AVG(rating), '.$round.') as averageReviewRateable')
-              ->pluck('averageReviewRateable');
+              ->value('averageReviewRateable');
         }
 
         return $this->ratings()
             ->selectRaw('AVG(rating) as averageReviewRateable')
-            ->pluck('averageReviewRateable');
+            ->value('averageReviewRateable');
     }
 
     /**
@@ -39,7 +39,7 @@ trait ReviewRateable
     public function countRating(){
       return $this->ratings()
           ->selectRaw('count(rating) as countReviewRateable')
-          ->pluck('countReviewRateable');
+          ->value('countReviewRateable');
     }
 
     /**
@@ -50,7 +50,7 @@ trait ReviewRateable
     {
         return $this->ratings()
             ->selectRaw('SUM(rating) as sumReviewRateable')
-            ->pluck('sumReviewRateable');
+            ->value('sumReviewRateable');
     }
 
     /**
@@ -62,7 +62,7 @@ trait ReviewRateable
     {
         $ratings = $this->ratings();
         $quantity = $ratings->count();
-        $total = $ratings->selectRaw('SUM(rating) as total')->pluck('total');
+        $total = $ratings->selectRaw('SUM(rating) as total')->value('total');
         return ($quantity * $max) > 0 ? $total / (($quantity * $max) / 100) : 0;
     }
 
